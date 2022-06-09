@@ -7,10 +7,10 @@
             <div class="column is-2 is-justify-content-space-between is-align-items-center is-flex">
                 <section>
                     <strong>
-                        00:00:00
+                        {{tempoDecorrido}}
                     </strong>
                 </section>
-                <button class="button">
+                <button class="button" @click="iniciar">
                     <span class="icon">
                         <i class="fas fa-play"></i>
                     </span>
@@ -32,7 +32,27 @@
     import { defineComponent } from 'vue'
 
     export default defineComponent({
-        name: 'MyFormulario'
+        name: 'MyFormulario',
+        data () {
+            return {
+                tempoEmSegundos : 0
+            }
+        },
+        computed: {
+            tempoDecorrido () : string {
+                return new Date(this.tempoEmSegundos * 1000).toISOString().substring(11,19)
+            }
+        },
+        methods: {
+            iniciar () {
+                setInterval(() => {
+                    this.tempoEmSegundos += 1
+                }, 1000)
+            },
+            // parar () {
+
+            // }
+        }
     })
 </script>
 
