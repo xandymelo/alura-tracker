@@ -2,59 +2,34 @@
     <div class="box">
         <div class="columns">
             <div class="column is-8" role="form" aria-label="Formulario para criação de uma novo objeto">
-                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar ?">
+                <input type="text" class="input" placeholder="Qual tarefa você deseja iniciar ?" v-model="tarefa">
             </div>
-            <div class="column is-2 is-justify-content-space-between is-align-items-center is-flex">
-                <section>
-                    <strong>
-                        {{tempoDecorrido}}
-                    </strong>
-                </section>
-                <button class="button" @click="iniciar">
-                    <span class="icon">
-                        <i class="fas fa-play"></i>
-                    </span>
-                    <span>play</span>
-                </button>
-                <button class="button" @click="parar">
-                    <span class="icon">
-                        <i class="fas fa-stop"></i>
-                    </span>
-                    <span>stop</span>
-                </button>
-            </div>
+            <Temporizador @aoPararCronometro="finalizarContador" />
         </div>
 
     </div>
 </template>
 
 <script lang="ts">
-    import { defineComponent } from 'vue'
-
+    import { stringifyStyle } from '@vue/shared';
+import { defineComponent } from 'vue'
+    import Temporizador from './temporizador.vue'
     export default defineComponent({
-        name: 'MyFormulario',
-        data () {
-            return {
-                tempoEmSegundos : 0,
-                cronometro : 0
-            }
-        },
-        computed: {
-            tempoDecorrido () : string {
-                return new Date(this.tempoEmSegundos * 1000).toISOString().substring(11,19)
-            }
-        },
-        methods: {
-            iniciar () {
-                this.cronometro = setInterval(() => {
-                    this.tempoEmSegundos += 1
-                }, 1000)
-            },
-            parar () {
-                clearInterval(this.cronometro)
-            }
+    name: "MyFormulario",
+    data() {
+        return {
+            tarefa: '',
+        };
+    },
+    methods: {
+        finalizarContador(tempo: number): void {
+            console.log('tempo decorrido :', tempo)
+            console.log('tarefa:', this.tarefa)
+            this.tarefa = ''
         }
-    })
+    },
+    components: { Temporizador }
+})
 </script>
 
 <style>
